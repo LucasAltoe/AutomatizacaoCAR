@@ -3,12 +3,9 @@ import os
 import glob
 
 def verificar_integridade():
-    # --- CONFIGURAÇÕES ---
-    # Coloque aqui o MESMO nome da pasta que você usou no outro script
     nome_da_subpasta = 'acompanhamento_processos_IntegraCAR' 
     nome_arquivo_final = 'TODOS_DADOS_UNIFICADOS.csv'
     
-    # Define os caminhos
     caminho_raiz = os.path.dirname(os.path.abspath(__file__))
     caminho_origem = os.path.join(caminho_raiz, nome_da_subpasta)
     caminho_final = os.path.join(caminho_raiz, nome_arquivo_final)
@@ -17,14 +14,12 @@ def verificar_integridade():
     print(f"Origem: {caminho_origem}")
     print(f"Destino: {caminho_final}\n")
 
-    # 1. Contar linhas na ORIGEM
     arquivos_origem = glob.glob(os.path.join(caminho_origem, "*.[cC][sS][vV]"))
     total_linhas_origem = 0
     total_arquivos = 0
     
     print("Contando linhas arquivo por arquivo...")
     for arq in arquivos_origem:
-        # Pula se por acaso o arquivo final estiver na pasta de origem
         if os.path.basename(arq) == nome_arquivo_final:
             continue
             
@@ -33,12 +28,9 @@ def verificar_integridade():
             qtd = len(df)
             total_linhas_origem += qtd
             total_arquivos += 1
-            # Se quiser ver detalhado, descomente a linha abaixo:
-            # print(f"  > {os.path.basename(arq)}: {qtd} linhas")
         except Exception as e:
             print(f"  [ERRO] Não foi possível ler {os.path.basename(arq)}: {e}")
 
-    # 2. Contar linhas no DESTINO (Arquivo Final)
     total_linhas_final = 0
     if os.path.exists(caminho_final):
         try:
@@ -50,7 +42,6 @@ def verificar_integridade():
         print(f"  [ERRO] Arquivo final '{nome_arquivo_final}' não encontrado na raiz!")
         return
 
-    # 3. RELATÓRIO FINAL
     print("\n" + "="*40)
     print("RESUMO DA AUDITORIA")
     print("="*40)
